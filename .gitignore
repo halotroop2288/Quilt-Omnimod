@@ -7,6 +7,10 @@ classes/
 # Quilt Loom
 run/
 
+# For hopefully less annoying development in the future
+!run/server.properties
+!run/ops.json
+
 # Eclipse
 *.launch
 
