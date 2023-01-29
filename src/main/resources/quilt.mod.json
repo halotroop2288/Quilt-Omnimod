@@ -21,8 +21,11 @@
 		"entrypoints": {
 			"init": [
 				"com.halotroop.omnimod.Omnimod",
-				"com.halotroop.omnimod.block.OmnimodBlocks",
-				"com.halotroop.omnimod.item.OmnimodItems"
+				"com.halotroop.omnimod.commands.OmnimodCommands",
+				"com.halotroop.omnimod.world.level.block.OmnimodBlocks",
+				"com.halotroop.omnimod.world.level.block.entity.OmnimodBlockEntityType",
+				"com.halotroop.omnimod.world.entity.OmnimodEntityType",
+				"com.halotroop.omnimod.world.item.OmnimodItems"
 			],
 			"client_init": [
 				"com.halotroop.omnimod.client.OmnimodClient"

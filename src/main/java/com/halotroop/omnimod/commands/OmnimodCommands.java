@@ -8,23 +8,29 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.halotroop.omnimod.client;
+package com.halotroop.omnimod.commands;
 
 import com.halotroop.omnimod.Omnimod;
-import org.jetbrains.annotations.ApiStatus;
+import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
+import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 
 /**
- * @see Omnimod
+ * Registers {@link com.mojang.brigadier.Command commands} for the mod.
+ * @see Commands
  * @author halotroop2288
  */
-public final class OmnimodClient implements ClientModInitializer {
-	/** @apiNote Public only for access by Quilt Loader. */
-	@ApiStatus.Internal public OmnimodClient() {}
-
+public class OmnimodCommands implements ModInitializer {
 	@Override
-	public void onInitializeClient(ModContainer mod) {
-		Omnimod.info("Loading {} on client!", Omnimod.mod_name);
+	public void onInitialize(ModContainer mod) {
+		Omnimod.spewRegistration("commands");
+		CommandRegistrationCallback.EVENT.register(OmnimodCommands::registerCommands);
+	}
+
+	private static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher,
+	                                     boolean integrated, boolean dedicated) {
 	}
 }

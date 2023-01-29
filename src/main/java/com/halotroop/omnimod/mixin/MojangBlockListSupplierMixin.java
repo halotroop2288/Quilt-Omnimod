@@ -8,23 +8,32 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.halotroop.omnimod.client;
+package com.halotroop.omnimod.mixin;
 
 import com.halotroop.omnimod.Omnimod;
-import org.jetbrains.annotations.ApiStatus;
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
+import com.mojang.patchy.BlockedServers;
+import com.mojang.patchy.MojangBlockListSupplier;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.function.Predicate;
 
 /**
- * @see Omnimod
+ * @see MojangBlockListSupplier
+ * @see BlockedServers
  * @author halotroop2288
  */
-public final class OmnimodClient implements ClientModInitializer {
-	/** @apiNote Public only for access by Quilt Loader. */
-	@ApiStatus.Internal public OmnimodClient() {}
-
-	@Override
-	public void onInitializeClient(ModContainer mod) {
-		Omnimod.info("Loading {} on client!", Omnimod.mod_name);
+@Mixin(MojangBlockListSupplier.class)
+public class MojangBlockListSupplierMixin {
+	/**
+	 * @reason disables the Mojang server blocking feature in Patchy entirely.
+	 */
+	@Inject(method = "createBlockList", at = @At("HEAD"), cancellable = true)
+	private void preventServerBlocking(CallbackInfoReturnable<Predicate<String>> cir) {
+		if (Omnimod.config().either_side.disable_server_blocklist) {
+			cir.setReturnValue(null);
+		}
 	}
 }

@@ -3,9 +3,10 @@
 	"minVersion": "0.8",
 	"package": "com.halotroop.omnimod.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"mixins": [],
+	"mixins": [
+      "MojangBlockListSupplierMixin"
+    ],
 	"client": [
-      "TitleScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

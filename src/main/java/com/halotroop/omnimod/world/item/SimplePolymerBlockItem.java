@@ -8,23 +8,38 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.halotroop.omnimod.client;
+package com.halotroop.omnimod.world.item;
 
-import com.halotroop.omnimod.Omnimod;
-import org.jetbrains.annotations.ApiStatus;
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
+import eu.pb4.polymer.api.item.PolymerItem;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * @see Omnimod
+ * A simple implementation of {@link PolymerItem} over {@link BlockItem}
+ * @see BlockItem
+ * @see PolymerItem
  * @author halotroop2288
  */
-public final class OmnimodClient implements ClientModInitializer {
-	/** @apiNote Public only for access by Quilt Loader. */
-	@ApiStatus.Internal public OmnimodClient() {}
+public class SimplePolymerBlockItem extends BlockItem implements PolymerItem {
+	@NotNull
+	private final Item virtualItem;
+
+	public SimplePolymerBlockItem(@NotNull Block block, @NotNull Properties properties, @NotNull Item virtualItem) {
+		super(block, properties);
+		this.virtualItem = virtualItem;
+	}
+
+	public SimplePolymerBlockItem(@NotNull Block block, Properties properties, @NotNull Block virtualBlock) {
+		this(block, properties, virtualBlock.asItem());
+	}
 
 	@Override
-	public void onInitializeClient(ModContainer mod) {
-		Omnimod.info("Loading {} on client!", Omnimod.mod_name);
+	public Item getPolymerItem(ItemStack itemStack, @Nullable ServerPlayer player) {
+		return this.virtualItem;
 	}
 }

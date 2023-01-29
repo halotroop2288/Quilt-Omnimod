@@ -15,3 +15,4 @@ quilted_fabric_api = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-a
 
 [plugins]
 quilt_loom = { id = "org.quiltmc.loom", version = "1.0.+" }
+quilt_licenser = { id = "org.quiltmc.gradle.licenser", version = "1.+" }

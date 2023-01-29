@@ -3,6 +3,9 @@
 Omnimod is my attempt to reduce the amount of projects I have to maintain
 by taking all my ideas and putting them into one mod.
 
+<img src="https://raw.githubusercontent.com/QuiltMC/art/master/brand/svg/quilt_powered_dark.svg#gh-dark-mode-only" height="60"/>
+<img src="https://raw.githubusercontent.com/QuiltMC/art/master/brand/svg/quilt_powered_light.svg#gh-light-mode-only" height="60"/>
+
 ## Usage
 
 In order to contribute to this project:
