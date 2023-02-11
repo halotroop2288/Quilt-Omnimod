@@ -25,7 +25,8 @@
 				"com.halotroop.omnimod.world.level.block.OmnimodBlocks",
 				"com.halotroop.omnimod.world.level.block.entity.OmnimodBlockEntityType",
 				"com.halotroop.omnimod.world.entity.OmnimodEntityType",
-				"com.halotroop.omnimod.world.item.OmnimodItems"
+				"com.halotroop.omnimod.world.item.OmnimodItems",
+				"com.halotroop.omnimod.world.level.levelgen.feature.OmnimodOreFeatures"
 			],
 			"client_init": [
 				"com.halotroop.omnimod.client.OmnimodClient"
@@ -34,22 +35,36 @@
 				"com.halotroop.omnimod.server.OmnimodServer"
 			]
 		},
+		"language_adapters": {
+			"groovy": "one.codehz.language.groovy.GroovyLanguageAdapter"
+		},
 		"depends": [
+			{
+				"id": "java",
+				"versions": "17"
+			},
 			{
 				"id": "quilt_loader",
 				"versions": ">=0.17.0"
-			},
-			{
-				"id": "quilted_fabric_api",
-				"versions": ">=1.0.0-"
 			},
 			{
 				"id": "minecraft",
 				"versions": "1.18.2"
 			},
 			{
-				"id": "java",
-				"versions": "17"
+				"id": "quilted_fabric_api",
+				"versions": ">=1.0.0-"
+			}
+		],
+		"breaks": [
+			{
+				"id": "sodium",
+				"reason": "Sodium does not implement the Quilt Rendering API.",
+				"unless": "indium"
+			},
+			{
+				"id": "optifabric",
+				"reason": "Optifine patches everything, which breaks everything."
 			}
 		]
 	},

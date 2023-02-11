@@ -16,12 +16,16 @@ import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.server.DedicatedServerModInitializer;
 
 /**
- * @see Omnimod
  * @author halotroop2288
+ * @see Omnimod
  */
 public final class OmnimodServer implements DedicatedServerModInitializer {
-	/** @apiNote Public only for access by Quilt Loader. */
-	@ApiStatus.Internal public OmnimodServer() {}
+	/**
+	 * @apiNote Public only for access by Quilt Loader.
+	 */
+	@ApiStatus.Internal
+	public OmnimodServer() {
+	}
 
 	@Override
 	public void onInitializeServer(ModContainer mod) {

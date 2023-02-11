@@ -11,26 +11,27 @@
 package com.halotroop.omnimod.world.level.block;
 
 import com.halotroop.omnimod.Omnimod;
-import eu.pb4.polymer.api.block.SimplePolymerBlock;
-import eu.pb4.polymer.ext.blocks.api.PolymerBlockModel;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.OreBlock;
+import org.jetbrains.annotations.ApiStatus;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 
 import static com.halotroop.omnimod.Omnimod.id;
-import static net.minecraft.world.level.block.Blocks.*;
+import static net.minecraft.world.level.block.Blocks.END_STONE;
+import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.copy;
 
 /**
  * Handles creation and registry of {@link Block blocks} for the mod.
- * @see Blocks
+ *
  * @author halotroop2288
+ * @see Blocks
  */
 public final class OmnimodBlocks implements ModInitializer {
-	public static final String[] ORE_NAMES = new String[] {
+	public static final String[] ORE_NAMES = new String[]{
 			"coal", "copper", "diamond", "emerald", "gold", "iron", "lapis", "redstone"
 	};
 
@@ -40,36 +41,42 @@ public final class OmnimodBlocks implements ModInitializer {
 			END_GOLD_ORE, END_IRON_ORE, END_LAPIS_ORE, END_REDSTONE_ORE;
 
 	static {
-	//region End Ore
-		END_COAL_ORE = new SimplePolymerOreBlock(END_STONE, DEEPSLATE_COAL_ORE);
-		END_COPPER_ORE = new SimplePolymerOreBlock(END_STONE, DEEPSLATE_COPPER_ORE);
-		END_DIAMOND_ORE = new SimplePolymerOreBlock(END_STONE, DEEPSLATE_DIAMOND_ORE);
-		END_EMERALD_ORE = new SimplePolymerOreBlock(END_STONE, DEEPSLATE_EMERALD_ORE);
-		END_GOLD_ORE = new SimplePolymerOreBlock(END_STONE, DEEPSLATE_GOLD_ORE);
-		END_IRON_ORE = new SimplePolymerOreBlock(END_STONE, DEEPSLATE_IRON_ORE);
-		END_LAPIS_ORE = new SimplePolymerOreBlock(END_STONE, DEEPSLATE_LAPIS_ORE);
-		END_REDSTONE_ORE = new PolymerRedStoneOreBlock(END_STONE, DEEPSLATE_REDSTONE_ORE);
-		END_ORE = new Block[] {
+		//region End Ore
+		END_COAL_ORE = new OreBlock(copy(END_STONE));
+		END_COPPER_ORE = new OreBlock(copy(END_STONE));
+		END_DIAMOND_ORE = new OreBlock(copy(END_STONE));
+		END_EMERALD_ORE = new OreBlock(copy(END_STONE));
+		END_GOLD_ORE = new OreBlock(copy(END_STONE));
+		END_IRON_ORE = new OreBlock(copy(END_STONE));
+		END_LAPIS_ORE = new OreBlock(copy(END_STONE));
+		END_REDSTONE_ORE = new OreBlock(copy(END_STONE));
+		END_ORE = new Block[]{
 				END_COAL_ORE, END_COPPER_ORE, END_DIAMOND_ORE, END_EMERALD_ORE,
 				END_GOLD_ORE, END_IRON_ORE, END_LAPIS_ORE, END_REDSTONE_ORE
 		};
-	//endregion
+		//endregion
 	}
 
 	@Override
 	public void onInitialize(ModContainer mod) {
 		Omnimod.spewRegistration("blocks");
 
-		if (Omnimod.config().server_required.register_end_ores) {
+		if (Omnimod.config.register_end_ores) {
 			register(Omnimod.mod_id, "end_%s_ore", ORE_NAMES, END_ORE);
 		}
+	}
+
+	/**
+	 * @apiNote Public only for access by Quilt Loader.
+	 */
+	@ApiStatus.Internal
+	public OmnimodBlocks() {
 	}
 
 	private void register(String modId, String key, Block value) {
 		Omnimod.spewRegistration("block", key);
 		ResourceLocation id = id(key);
 		Registry.register(Registry.BLOCK, id, value);
-		PolymerBlockModel.of(id);
 	}
 
 	private void register(String modId, String format, String[] keys, Block[] values) {
@@ -83,7 +90,7 @@ public final class OmnimodBlocks implements ModInitializer {
 		}
 	}
 
-	private static SimplePolymerBlock createSimple(Block virtualBlock) {
-		return new SimplePolymerBlock(BlockBehaviour.Properties.copy(virtualBlock), virtualBlock);
+	private static Block createSimple(Block propertiesOf) {
+		return new Block(copy(propertiesOf));
 	}
 }

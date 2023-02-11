@@ -11,8 +11,6 @@
 package com.halotroop.omnimod.commands;
 
 import com.halotroop.omnimod.Omnimod;
-import com.mojang.brigadier.CommandDispatcher;
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
@@ -20,17 +18,16 @@ import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 
 /**
  * Registers {@link com.mojang.brigadier.Command commands} for the mod.
- * @see Commands
+ *
  * @author halotroop2288
+ * @see Commands
  */
 public class OmnimodCommands implements ModInitializer {
 	@Override
 	public void onInitialize(ModContainer mod) {
 		Omnimod.spewRegistration("commands");
-		CommandRegistrationCallback.EVENT.register(OmnimodCommands::registerCommands);
-	}
+		CommandRegistrationCallback.EVENT.register((dispatcher, integrated, dedicated) -> {
 
-	private static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher,
-	                                     boolean integrated, boolean dedicated) {
+		});
 	}
 }

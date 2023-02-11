@@ -20,8 +20,9 @@ import static com.halotroop.omnimod.Omnimod.id;
 
 /**
  * Handles creation and registry of {@link EntityType entity types} for the mod.
- * @see EntityType
+ *
  * @author halotroop2288
+ * @see EntityType
  */
 public class OmnimodEntityType implements ModInitializer {
 	@Override
@@ -31,8 +32,9 @@ public class OmnimodEntityType implements ModInitializer {
 
 	/**
 	 * Registers the entity type provided using the key provided.
+	 *
 	 * @param modId Mod ID to register under
-	 * @param key registry key for the item
+	 * @param key   registry key for the item
 	 * @param value the item to register
 	 */
 	private void register(String modId, String key, EntityType<?> value) {
@@ -42,9 +44,10 @@ public class OmnimodEntityType implements ModInitializer {
 
 	/**
 	 * Registers each entity type provided using the formatted keys provided.
-	 * @param modId Mod ID to register under
+	 *
+	 * @param modId  Mod ID to register under
 	 * @param format how to name the entries, use %s as a placeholder for a key
-	 * @param keys an array of strings to format as provided to make the registry key
+	 * @param keys   an array of strings to format as provided to make the registry key
 	 * @param values an array of values to register
 	 */
 	private void register(String modId, String format, String[] keys, EntityType<?>[] values) {

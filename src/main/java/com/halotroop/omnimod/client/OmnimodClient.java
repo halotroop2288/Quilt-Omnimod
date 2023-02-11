@@ -16,12 +16,16 @@ import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 
 /**
- * @see Omnimod
  * @author halotroop2288
+ * @see Omnimod
  */
 public final class OmnimodClient implements ClientModInitializer {
-	/** @apiNote Public only for access by Quilt Loader. */
-	@ApiStatus.Internal public OmnimodClient() {}
+	/**
+	 * @apiNote Public only for access by Quilt Loader.
+	 */
+	@ApiStatus.Internal
+	public OmnimodClient() {
+	}
 
 	@Override
 	public void onInitializeClient(ModContainer mod) {

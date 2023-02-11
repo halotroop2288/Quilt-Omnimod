@@ -21,9 +21,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.function.Predicate;
 
 /**
+ * @author halotroop2288
  * @see MojangBlockListSupplier
  * @see BlockedServers
- * @author halotroop2288
  */
 @Mixin(MojangBlockListSupplier.class)
 public class MojangBlockListSupplierMixin {
@@ -32,7 +32,7 @@ public class MojangBlockListSupplierMixin {
 	 */
 	@Inject(method = "createBlockList", at = @At("HEAD"), cancellable = true)
 	private void preventServerBlocking(CallbackInfoReturnable<Predicate<String>> cir) {
-		if (Omnimod.config().either_side.disable_server_blocklist) {
+		if (Omnimod.config.disable_server_blocklist) {
 			cir.setReturnValue(null);
 		}
 	}

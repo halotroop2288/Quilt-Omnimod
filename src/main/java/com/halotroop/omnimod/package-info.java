@@ -6,8 +6,9 @@
  * <br/>
  * This package tries to keep the same structure as {@link net.minecraft} under Mojang mappings.<br/>
  * Any duplicated classes will be prefixed with the mod's name.
- * @see net.minecraft
+ *
  * @author halotroop2288
+ * @see net.minecraft
  */
 @FieldsAreNonnullByDefault
 @MethodsReturnNonnullByDefault

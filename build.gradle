@@ -1,5 +1,4 @@
 plugins {
-	id 'maven-publish'
 	alias(libs.plugins.quilt.loom)
 	alias(libs.plugins.quilt.licenser)
 }
@@ -31,10 +30,18 @@ repositories {
 			includeGroup 'xyz.nucleoid'
 		}
 	}
+	maven {
+		name 'Modding Inquisition'
+		url 'https://maven.moddinginquisition.org/releases'
+		content {
+
+		}
+	}
 	mavenLocal() {
 		description 'JitPack is unreliable, so these modules have to be cloned and published locally.'
 		content {
 			includeModule 'org.samo_lego', 'config2brigadier-fabric'
+			includeModule 'me.luligabi', 'NoIndium'
 		}
 	}
 }
@@ -42,15 +49,14 @@ repositories {
 // All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"
 // See https://docs.gradle.org/current/userguide/platforms.html for information on how version catalogs work.
 dependencies {
-
 //region Minecraft / Quilt
 	minecraft libs.minecraft
 	mappings loom.layered {
 		officialMojangMappings()
-		// Use Mojang mappings as your primary mappings, falling back on QM for paras & docs
 		parchment("org.parchmentmc.data:parchment-1.18.2:2022.11.06@zip")
 	}
 	modImplementation libs.quilt.loader
+	modImplementation libs.quilt.qsl
 
 	// QSL is not a complete API; You will need Quilted Fabric API to fill in the gaps.
 	// Quilted Fabric API will automatically pull in the correct QSL version.
@@ -65,19 +71,11 @@ dependencies {
 	modRuntimeOnly "maven.modrinth:starlight:1.0.2+1.18.2" // Lighting
 	modRuntimeOnly "maven.modrinth:ferrite-core:4.2.1-fabric" // Memory
 
-	// Makes Sodium work with Indigo mods
-	modRuntimeOnly "maven.modrinth:indium:1.0.7+mc1.18.2"
-//endregion
-//region Patbox
-	// Allows registration of server-only blocks/items
-	modImplementation "eu.pb4:polymer:${project.polymer_version}"
-	modImplementation "eu.pb4:polymer-blocks:${project.polymer_blocks_version}"
-	modImplementation "eu.pb4:sgui:${project.sgui_version}"
+	modRuntimeOnly "maven.modrinth:indium:1.0.7+mc1.18.2" // Makes Sodium work with Indigo mods
+	modImplementation include("me.luligabi:NoIndium:2.0.0+1.18.2") // Warns against using Sodium without Indium
 //endregion
 
-	modImplementation include("org.samo_lego:config2brigadier-fabric:${project.config2brigadier_version}")
-
-	implementation include("blue.endless:jankson:1.2.1")
+	implementation include("blue.endless:jankson:${project.jankson_version}")
 }
 
 processResources {
@@ -111,17 +109,4 @@ jar {
 license {
 	rule file("LICENSE")
 	include '**/*.java'
-}
-
-// Configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
-
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-	}
 }

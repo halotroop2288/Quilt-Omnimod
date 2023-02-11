@@ -23,94 +23,52 @@ import java.io.IOException;
 /**
  * For Omnimod to be desirable to the average user, we allow all features to be toggleable,
  * because your taste in mod features may vary.
+ *
  * @author halotroop2288
+ * @see Jankson
  */
 public final class OmnimodConfig {
 	private static final Jankson jankson = Jankson.builder().build();
 	private static final File config_file = new File(QuiltLoader.getConfigDir().toFile(), "omnimod.json5");
 
-	@Comment("""
-			These options affect features that only required the mod to be present on the server side.
-			This includes on single-player clients.""")
-	public final ServerRequired server_required = new ServerRequired();
+	@Comment("Register end variants of overworld ores?")
+	public boolean register_end_ores = true;
+	@Comment("Spawn end ores in The End biomes? (Useful in superflat survival)")
+	public boolean spawn_end_ores = true;
 
-	@Comment("These options affect features that only required the mod to be present on the client side.")
-	public final ClientRequired client_required = new ClientRequired();
+	@Comment("Disable the Mojang server block list?")
+	public boolean disable_server_blocklist = true;
+	@Comment("Removes the Realms button from the title screen")
+	public boolean remove_realms = true;
 
-	@Comment("""
-			These options affect features which require the mod to be installed on both client and server
-			Ideally, leave these settings false to be compatible with vanilla clients.""")
-	public final BothRequired both_required = new BothRequired();
-
-	@Comment("""
-			The rest of these options affect features that only require the mod to be installed on one side.
-			Only the side the mod is installed on will be affected.""")
-	public final EitherSide either_side = new EitherSide();
-
-	public static class ServerRequired {
-		@Comment("Register end variants of overworld ores?")
-		public boolean register_end_ores = true;
-		@Comment("Spawn end ores in The End biomes? (Useful in superflat survival)")
-		public boolean spawn_end_ores = true;
-
-		@Override
-		public String toString() {
-			return String.format("""
-					Register End Ores - %b
-					Spawn End Ores - %b""",
-					register_end_ores,
-					spawn_end_ores
-			);
-		}
+	@Override
+	public String toString() {
+		return String.format(
+				"""
+						Register End Ores: %s
+						Spawn End Ores: %s
+						Disable Server Blocklist: %s""",
+				register_end_ores, spawn_end_ores,
+				disable_server_blocklist
+		);
 	}
 
-	public static class ClientRequired {
-		@Override
-		public String toString() {
-			return String.format("""
-					"""
-			);
-		}
-	}
-
-	public static class BothRequired {
-		@Override
-		public String toString() {
-			return String.format("""
-					"""
-			);
-		}
-	}
-
-	public static class EitherSide {
-		@Comment("Disables reading the Mojang blocked server list.")
-		public boolean disable_server_blocklist = false;
-
-		@Override
-		public String toString() {
-			return String.format("""
-					"""
-			);
-		}
-	}
-
+	//region save/load
 	public static OmnimodConfig load() {
+		if (!config_file.exists()) return new OmnimodConfig().save();
+
 		JsonObject configJson;
 		try {
 			configJson = jankson.load(config_file);
-		} catch (IOException e) {
-			return new OmnimodConfig();
-		} catch (SyntaxError e) {
-			throw new RuntimeException("Impossible error.", e);
+		} catch (IOException | SyntaxError e) {
+			throw new RuntimeException("Failed to load config file.", e);
 		}
 
 		return jankson.fromJson(configJson, OmnimodConfig.class);
 	}
 
-	public void save() {
-		final String result = jankson.toJson(new OmnimodConfig()) // -> JsonObject
-				.toJson(true, true); // -> String
-		//in this case, preserving comments and pretty-printing with newlines
+	public OmnimodConfig save() {
+		final String result = jankson.toJson(this).toJson(true, true);
 		try {
 			if (!config_file.exists() || config_file.createNewFile()) {
 				FileOutputStream out = new FileOutputStream(config_file, false);
@@ -122,28 +80,14 @@ public final class OmnimodConfig {
 		} catch (IOException e) {
 			Omnimod.error("Failed to save config! {}", e);
 		}
-	}
 
-	@Override
-	public String toString() {
-		return String.format("""
-				Server Required:
-				%s
-
-				Client Required:
-				%s
-
-				Both Required:
-				%s
-
-				Either Side:
-				%s""",
-				server_required, client_required, both_required, either_side
-		);
+		return this;
 	}
 
 	/**
 	 * Use {@link #load()}.
 	 */
-	private OmnimodConfig() {}
+	private OmnimodConfig() {
+	}
+//endregion
 }

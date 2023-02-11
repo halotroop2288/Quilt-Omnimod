@@ -14,6 +14,7 @@ import com.halotroop.omnimod.Omnimod;
 import net.minecraft.core.Registry;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import org.jetbrains.annotations.ApiStatus;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 
@@ -21,8 +22,9 @@ import static com.halotroop.omnimod.Omnimod.id;
 
 /**
  * Handles creation and registry of {@link BlockEntityType block entity types} for the mod.
- * @see BlockEntityType
+ *
  * @author halotroop2288
+ * @see BlockEntityType
  */
 public class OmnimodBlockEntityType implements ModInitializer {
 	@Override
@@ -31,9 +33,17 @@ public class OmnimodBlockEntityType implements ModInitializer {
 	}
 
 	/**
+	 * @apiNote Public only for access by Quilt Loader.
+	 */
+	@ApiStatus.Internal
+	public OmnimodBlockEntityType() {
+	}
+
+	/**
 	 * Registers the block entity type provided using the key provided.
+	 *
 	 * @param modId Mod ID to register under
-	 * @param key registry key for the item
+	 * @param key   registry key for the item
 	 * @param value the item to register
 	 */
 	private void register(String modId, String key, EntityType<?> value) {
@@ -43,9 +53,10 @@ public class OmnimodBlockEntityType implements ModInitializer {
 
 	/**
 	 * Registers each block entity type provided using the formatted keys provided.
-	 * @param modId Mod ID to register under
+	 *
+	 * @param modId  Mod ID to register under
 	 * @param format how to name the entries, use %s as a placeholder for a key
-	 * @param keys an array of strings to format as provided to make the registry key
+	 * @param keys   an array of strings to format as provided to make the registry key
 	 * @param values an array of values to register
 	 */
 	private void register(String modId, String format, String[] keys, EntityType<?>[] values) {
